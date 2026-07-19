@@ -16,7 +16,8 @@ import {
   Trophy,
   ChevronLeft,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  LogOut
 } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 
@@ -109,16 +110,33 @@ export const Sidebar = () => {
         </nav>
       </div>
 
-      {/* Footer System Status */}
-      {!collapsed && (
-        <div className="p-3 rounded-2xl bg-indigo-950/30 border border-indigo-500/20 text-indigo-300 hidden md:block">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">CareerOS v2.5 Live</span>
+      {/* Footer System Status & Logout */}
+      <div className="space-y-2">
+        {!collapsed && (
+          <div className="p-3 rounded-2xl bg-indigo-950/30 border border-indigo-500/20 text-indigo-300 hidden md:block">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">CareerOS v2.5 Live</span>
+            </div>
+            <p className="text-[9px] text-slate-400 leading-tight">AI Engine & Video Streaming operational</p>
           </div>
-          <p className="text-[9px] text-slate-400 leading-tight">AI Engine & Video Streaming operational</p>
-        </div>
-      )}
+        )}
+
+        {/* Quick Sign Out Action */}
+        <button
+          onClick={() => {
+            logout();
+            window.location.href = '/login';
+          }}
+          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-red-400 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/30 transition-all cursor-pointer ${
+            collapsed ? 'justify-center' : ''
+          }`}
+          title="Sign Out of Session"
+        >
+          <LogOut className="w-4.5 h-4.5 shrink-0" />
+          {!collapsed && <span>Sign Out</span>}
+        </button>
+      </div>
     </aside>
   );
 };

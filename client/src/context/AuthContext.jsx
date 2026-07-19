@@ -132,12 +132,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('talentsphere_token');
     localStorage.removeItem('talentsphere_refresh_token');
     localStorage.removeItem('talentsphere_user_avatar');
+    localStorage.removeItem('talentsphere_cache_state');
     if (socket) {
       try { socket.disconnect(); } catch (_) {}
     }
     setSocket(null);
     setUser(null);
-    showToast('Logged Out', 'Successfully signed out of CareerOS.', 'info');
+    showToast('Logged Out', 'Successfully signed out of session.', 'info');
   };
 
   const updateProfile = async (profileData) => {
