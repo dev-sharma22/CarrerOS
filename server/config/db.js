@@ -3,24 +3,21 @@ import mongoose from 'mongoose';
 const connectDB = async () => {
   const mongoUri = process.env.MONGO_URI;
 
-  // On Cloud (Render/Railway/Vercel) without MONGO_URI, use Memory Database instantly
-  if (!mongoUri && (process.env.RENDER || process.env.NODE_ENV === 'production')) {
-    console.log('No MONGO_URI configured in Cloud Environment. Running in Memory Database Mode.');
+  // If no MONGO_URI is set, run in High-Speed Memory Database Mode immediately (0ms timeout)
+  if (!mongoUri) {
+    console.log('CareerOS Engine: Running in High-Speed Memory Database Mode.');
     global.isMongoConnected = false;
     return;
   }
 
-  const targetUri = mongoUri || 'mongodb://127.0.0.1:27017/talentsphere_db';
-
   try {
-    const conn = await mongoose.connect(targetUri, {
-      serverSelectionTimeoutMS: 2000 // Fast 2-second timeout
+    const conn = await mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 3000
     });
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    console.log(`CareerOS Engine: MongoDB Atlas Connected -> ${conn.connection.host}`);
     global.isMongoConnected = true;
   } catch (error) {
-    console.warn(`MongoDB Notice: Could not connect to (${targetUri}).`);
-    console.log('Running CareerOS in Memory-Database Mode.');
+    console.log('CareerOS Engine: Could not connect to MONGO_URI. Fallback to Memory Database Mode.');
     global.isMongoConnected = false;
   }
 };
