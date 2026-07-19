@@ -242,14 +242,16 @@ export const memoryDb = {
 
   // Company Operations
   getCompanies: async () => db.companies,
-  getCompanyByName: async (name) => db.companies.find(c => c.name.toLowerCase() === name.toLowerCase()),
+  getCompaniesList: async () => db.companies,
+  getCompanyByName: async (name) => db.companies.find(c => (c.name || c.companyName || '').toLowerCase() === name.toLowerCase()),
+  findCompanyByName: async (name) => db.companies.find(c => (c.name || c.companyName || '').toLowerCase() === name.toLowerCase()),
   createCompany: async (companyData) => {
     const newCompany = { _id: `mem_comp_${Date.now()}`, ...companyData };
     db.companies.push(newCompany);
     return newCompany;
   },
   deleteCompanyByName: async (name) => {
-    const idx = db.companies.findIndex(c => c.name.toLowerCase() === name.toLowerCase());
+    const idx = db.companies.findIndex(c => (c.name || c.companyName || '').toLowerCase() === name.toLowerCase());
     if (idx !== -1) {
       db.companies.splice(idx, 1);
       return true;
@@ -257,7 +259,7 @@ export const memoryDb = {
     return false;
   },
   addExperienceToCompany: async (companyName, experienceData) => {
-    const comp = db.companies.find(c => c.name.toLowerCase() === companyName.toLowerCase());
+    const comp = db.companies.find(c => (c.name || c.companyName || '').toLowerCase() === companyName.toLowerCase());
     if (comp) {
       if (!comp.userExperiences) comp.userExperiences = [];
       comp.userExperiences.push(experienceData);
@@ -272,6 +274,7 @@ export const memoryDb = {
     const q = searchQuery.toLowerCase();
     return db.jobs.filter(j => j.title.toLowerCase().includes(q) || j.companyName.toLowerCase().includes(q) || j.location.toLowerCase().includes(q));
   },
+  getJobsList: async () => db.jobs,
   getJobById: async (id) => db.jobs.find(j => j._id.toString() === id.toString()),
   getJobsByRecruiter: async (recruiterId) => db.jobs.filter(j => j.postedBy.toString() === recruiterId.toString()),
   createJob: async (jobData) => {
