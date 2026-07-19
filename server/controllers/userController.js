@@ -119,6 +119,9 @@ export const getStudentDashboardStats = async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
+    interviews = interviews || [];
+    dsaProgress = dsaProgress || [];
+
     // Calculate completion
     let profileCompletion = 25;
     if (user.skills && user.skills.length > 0) profileCompletion += 25;
@@ -127,10 +130,10 @@ export const getStudentDashboardStats = async (req, res) => {
 
     const interviewCount = interviews.length;
     const avgScore = interviewCount > 0 
-      ? Math.round((interviews.reduce((acc, curr) => acc + curr.score, 0) / interviewCount) * 10) / 10 
+      ? Math.round((interviews.reduce((acc, curr) => acc + (curr.score || 0), 0) / interviewCount) * 10) / 10 
       : 0;
 
-    const totalProblemsSolved = dsaProgress.reduce((acc, curr) => acc + curr.solvedProblems.length, 0);
+    const totalProblemsSolved = dsaProgress.reduce((acc, curr) => acc + (curr.solvedProblems ? curr.solvedProblems.length : 0), 0);
     
     const dsaBreakdown = dsaProgress.map(topic => ({
       topic: topic.topic,

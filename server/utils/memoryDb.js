@@ -313,7 +313,8 @@ export const memoryDb = {
     return newInterview;
   },
   getInterviewById: async (id) => db.interviews.find(i => i._id.toString() === id.toString()),
-  getInterviewsByUser: async (userId) => db.interviews.filter(i => i.user.toString() === userId.toString()),
+  getInterviewsByUser: async (userId) => db.interviews.filter(i => (i.user || i.userId || '').toString() === userId.toString()),
+  findInterviewsByUserId: async (userId) => db.interviews.filter(i => (i.user || i.userId || '').toString() === userId.toString()),
   updateInterviewById: async (id, updateData) => {
     const idx = db.interviews.findIndex(i => i._id.toString() === id.toString());
     if (idx !== -1) {
@@ -324,9 +325,10 @@ export const memoryDb = {
   },
 
   // DSA Operations
-  getDsaProgressByUser: async (userId) => db.dsaProgress.filter(d => d.user.toString() === userId.toString()),
+  getDsaProgressByUser: async (userId) => db.dsaProgress.filter(d => (d.user || d.userId || '').toString() === userId.toString()),
+  findDsaProgressByUserId: async (userId) => db.dsaProgress.filter(d => (d.user || d.userId || '').toString() === userId.toString()),
   saveDsaSolve: async (userId, topic, problemId) => {
-    const existing = db.dsaProgress.find(d => d.user.toString() === userId.toString() && d.topic === topic && d.problemId === problemId);
+    const existing = db.dsaProgress.find(d => (d.user || d.userId || '').toString() === userId.toString() && d.topic === topic && d.problemId === problemId);
     if (!existing) {
       const newSolve = { user: userId, topic, problemId, completedAt: new Date() };
       db.dsaProgress.push(newSolve);
@@ -335,12 +337,27 @@ export const memoryDb = {
     return existing;
   },
   deleteDsaSolve: async (userId, topic, problemId) => {
-    const idx = db.dsaProgress.findIndex(d => d.user.toString() === userId.toString() && d.topic === topic && d.problemId === problemId);
+    const idx = db.dsaProgress.findIndex(d => (d.user || d.userId || '').toString() === userId.toString() && d.topic === topic && d.problemId === problemId);
     if (idx !== -1) {
       db.dsaProgress.splice(idx, 1);
       return true;
     }
     return false;
+  },
+
+  // Resume Operations
+  findResumeByUserId: async (userId) => db.resumes.find(r => (r.userId || r.user || '').toString() === userId.toString()),
+  getResumesByUser: async (userId) => db.resumes.filter(r => (r.userId || r.user || '').toString() === userId.toString()),
+  saveResume: async (userId, resumeData) => {
+    const existingIdx = db.resumes.findIndex(r => (r.userId || r.user || '').toString() === userId.toString());
+    if (existingIdx !== -1) {
+      db.resumes[existingIdx] = { ...db.resumes[existingIdx], ...resumeData };
+      return db.resumes[existingIdx];
+    } else {
+      const newResume = { _id: `mem_res_${Date.now()}`, userId, ...resumeData, createdAt: new Date() };
+      db.resumes.push(newResume);
+      return newResume;
+    }
   },
 
   // Review Operations
@@ -349,5 +366,6 @@ export const memoryDb = {
     const newRev = { _id: `mem_rev_${Date.now()}`, createdAt: new Date(), ...reviewData };
     db.reviews.push(newRev);
     return newRev;
-  }
+  },
+  db
 };
