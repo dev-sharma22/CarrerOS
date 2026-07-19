@@ -73,9 +73,9 @@ app.use('/api/', apiLimiter);
 
 app.use(cors({ origin: '*' }));
 
-// Security Hardening: Enforce 10kb JSON payload size limits to prevent DoS buffer overflow attacks
-app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+// Enforce 10mb JSON payload size limits for profile picture uploads & data structures
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Prevent NoSQL query injection attacks (stripping properties beginning with $)
 const sanitizeNoSQL = (obj) => {
