@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+@theme {
+  --color-glass: rgba(255, 255, 255, 0.03);
+  --color-glassBorder: rgba(255, 255, 255, 0.08);
+  --color-darkBg: #090d16;
+  --color-darkSurface: #111827;
+  --color-darkCard: #1a2234;
+  --color-brandPrimary: #6366f1;
+  --color-brandSecondary: #10b981;
+  --color-brandAccent: #06b6d4;
+}
+
+/* Enable class-based dark mode in Tailwind v4 */
+@variant dark (&:where(.dark, .dark *));
+
+::selection {
+  background-color: rgba(16, 185, 129, 0.35) !important;
+  color: #047857 !important;
+}
+
+.dark ::selection {
+  background-color: rgba(16, 185, 129, 0.4) !important;
+  color: #34d399 !important;
+}
+
+body {
+  @apply transition-colors duration-300 antialiased;
+  font-family: 'Inter', 'Outfit', system-ui, sans-serif;
+  background-color: #f8fafc;
+  background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.04) 0px, transparent 50%),
+                    radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.04) 0px, transparent 50%);
+  color: #0f172a;
+}
+
+/* Dark mode ambient radial mesh glow */
+.dark body {
+  background-color: #090d16;
+  background-image: radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.14) 0px, transparent 45%),
+                    radial-gradient(at 90% 90%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+                    radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.05) 0px, transparent 60%);
+  color: #f8fafc;
+}
+
+/* Frosted Glass Panels */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+}
+
+.dark .glass-panel {
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* SaaS Linear Cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .glass-card {
+  background: rgba(26, 34, 52, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.glass-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.dark .glass-card:hover {
+  background: rgba(26, 34, 52, 0.9);
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 16px 40px -10px rgba(16, 185, 129, 0.18);
+}
+
+/* Cyber Emerald Glowing Border Mask */
+@keyframes borderGlowPulse {
+  0%, 100% { opacity: 0.95; filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.5)); }
+  50% { opacity: 0.45; filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.3)); }
+}
+
+.glass-card-glow {
+  position: relative;
+}
+
+.glass-card-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.2px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.8), rgba(99, 102, 241, 0.4), rgba(6, 182, 212, 0.8));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: borderGlowPulse 4s ease-in-out infinite;
+}
+
+/* SaaS Gradient Cyber Button */
+.btn-gradient-saas {
+  background: linear-gradient(135deg, #6366f1, #10b981);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #ffffff;
+}
+
+.btn-gradient-saas:hover {
+  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.5);
+  transform: translateY(-1.5px);
+}
+
+.btn-gradient-saas:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Micro-Interaction Button Press Scale */
+.btn-press-scale {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-press-scale:active {
+  transform: scale(0.96);
+}
+
+/* Glowing Border Accent Utility */
+.glow-border-emerald {
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+}
+
+/* Gradient Text Utilities */
+.text-gradient-primary {
+  background: linear-gradient(135deg, #6366f1, #10b981, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-accent {
+  background: linear-gradient(135deg, #10b981, #06b6d4, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-emerald-400 to-cyan-400 dark:from-indigo-400 dark:via-emerald-300 dark:to-cyan-300;
+}
+
+/* Modern Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.5);
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
