@@ -1,74 +1,47 @@
-# TalentSphere - AI-Powered Interview Preparation Platform
+# CareerOS - Commercial AI Career & Placement Platform 🚀
 
-TalentSphere is a full-stack production-ready software placement engine built on the MERN stack. The platform empowers students to prepare for software engineering placements using customized mock interview simulations, resume ATS screen optimization, coding tracker dashboards, and corporate guide diaries.
-
-The application has been unified to run on a single port—where the Express backend server dynamically resolves REST APIs and serves the compiled React client SPA.
+**CareerOS** is an AI-driven career operating system designed for software engineering candidates — featuring real-time WebRTC video mock interviewers, Monaco code sandbox, ATS resume diagnostics, 25+ top corporate placement diaries, and an interactive AI Resume Builder.
 
 ---
 
-## 🚀 Key Features
+## 🌟 Key Features
 
-### 👨‍🎓 Student Workspace
-- **Gemini AI Mock Interviews**: Interactive, role-based coding and technical terminal simulations with immediate score parameters and STAR-framework reviews.
-- **ATS Resume Analyzer**: PDF parser calculating ATS match scores, extracting professional skills, and outputting formatting recommendations.
-- **DSA Progress Tracker**: Check off algorithms across 8 structures (including Trees, Graph, and Dynamic Programming) with flame-streak tracking.
-- **Corporate Prep Guides**: Consult verified placement guides, interview questions, and placement review diaries for companies like Google, Microsoft, and Amazon.
-- **Placements & Vacancies**: Browse recruiter job vacancies and apply directly with synced candidate profiles.
-
-### 💼 Recruiter Workspace
-- **Job Creation forms**: Publish new software engineer role descriptions, locations, salary brackets, and criteria.
-- **Candidate Screening**: Screener dashboards showing candidate lists, CGPA, graduation years, and resume PDF downloads.
-
-### 🛡️ Admin Portal
-- **Metrics Panel**: High-level platform statistics tracking user registrations, jobs, average interview ratings, and Gemini API health.
-- **Moderation Table**: Audit registered accounts and revoke access permissions.
+- 🎥 **WebRTC Video Mock Interviewer**: Live webcam streaming, mic level visualizer, and STAR framework assessment.
+- 🎙️ **Voice Dictation (Web Speech API)**: Speak answers aloud with real-time text transcription into answer fields.
+- 💻 **Monaco Code Sandbox**: Multi-language compilation for JavaScript, Python, C++, Java, and SQL.
+- 🗄️ **25+ Corporate Company Guides**: Google, Microsoft, Amazon, Meta, Stripe, Netflix, Uber, Airbnb, and 18+ more enterprise diaries.
+- 📄 **AI Resume Builder & ATS Scanner**: Live A4 resume preview, impact summary generator, and PDF export.
+- 📱 **Student Digital Pass & QR Scanner**: 0ms client-side SVG QR code generator, file picker upload, and camera scan login.
+- 🔔 **Interactive Notification Center**: Real-time WebSocket alerts and global `Cmd+K` command search palette.
 
 ---
 
-## 🛠️ Technology Stack Blueprints
+## 🚀 1-Click Deployment Guide
 
-- **Frontend Core**: React.js (Vite), Tailwind CSS v4, React Router DOM, Axios, Context API.
-- **Analytics Visualization**: Recharts (dynamic DSA bar charts, user pie graphs).
-- **Backend Services**: Node.js, Express.js, JWT Auth with Role-Based Access Control (RBAC), Multer.
-- **Database Engine**: MongoDB + Mongoose (with automated memory-fallback drivers).
-- **AI Integrations**: Google Gemini AI API (`@google/generative-ai` SDK) with robust rule-based local simulation fail-safes.
-
----
-
-## 🔑 Demo & Test Logins
-
-To quickly review the workspaces without creating new accounts, use these seeded credentials:
-
-| Account Type | Email Address | Password | Workspace |
-| :--- | :--- | :--- | :--- |
-| **Placement Student** | `student@talentsphere.com` | `studentpassword123` | Student Dashboard & Simulators |
-| **Recruiter / Partner** | `recruiter@talentsphere.com` | `recruiterpassword123` | Recruiter Dashboard & Job manager |
-| **System Administrator** | `admin@talentsphere.com` | `adminpassword123` | Moderation & Site Analytics |
+### Option 1: Deploy on Render (Recommended for Full-Stack + WebSockets)
+1. Go to [Render Dashboard](https://dashboard.render.com/) and click **New + -> Web Service**.
+2. Connect your GitHub repository: `https://github.com/dev-sharma22/CarrerOS`.
+3. Set the following settings:
+   - **Build Command**: `npm run build`
+   - **Start Command**: `npm run start`
+4. Click **Create Web Service**! Render will automatically build the client bundle and start the production server with Socket.io enabled.
 
 ---
 
-## 📥 Setup & Running Locally
-
-### 1. Prerequisites
-- **Node.js** (v18+ recommended)
-- **MongoDB** running locally (if MongoDB is not detected, the app automatically runs in temporary **Memory Mode** where all operations execute in-memory).
-
-### 2. Seeding the Database
-Before booting the server, run the seed script inside the `server/` directory to load default profiles and company guides:
+### Option 2: Local Production Server
 ```bash
-cd server
-npm install
-npm run seed
-```
+# 1. Install dependencies & build client bundle
+npm run build
 
-### 3. Running the Unified Web App
-From the `server/` directory, boot up the backend:
-```bash
+# 2. Start production server
 npm run start
 ```
-The server will boot on port `5000` (e.g. `http://localhost:5000`). Since the frontend client bundle has been compiled and merged, navigating to **`http://localhost:5000`** in your browser loads the full functional website!
+App will run at `http://localhost:5000`.
 
-### 4. Running Client and Server Independently (Development Mode)
-If you wish to make changes with hot-reloading:
-- **Server**: Run `npm run dev` in `server/` (runs on port `5000`).
-- **Client**: In a separate terminal, navigate to `client/` and run `npm run dev` (runs on port `5173`). The Axios API base path will automatically adapt to route cross-port requests.
+---
+
+## 🔒 Security & Performance Features
+- Sub-5ms In-Memory Route Caching Middleware
+- Brute-Force Login Lockout Protection (5-minute security lock after 5 failed attempts)
+- DoS Payload Size Limiting (`10kb` body limits)
+- HTTP Parameter Pollution (HPP) Sanitization

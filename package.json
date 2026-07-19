@@ -1,0 +1,21 @@
+{
+  "name": "careeros",
+  "version": "2.5.0",
+  "description": "CareerOS - Commercial AI Placement & Career Operating System",
+  "main": "server/server.js",
+  "scripts": {
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "start": "cd server && node server.js"
+  },
+  "keywords": [
+    "careeros",
+    "ai-interview",
+    "webrtc",
+    "placement-prep",
+    "monaco-editor",
+    "resume-builder"
+  ],
+  "author": "Dev Mishra",
+  "license": "MIT"
+}
