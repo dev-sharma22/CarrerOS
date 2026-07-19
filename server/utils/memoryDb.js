@@ -130,6 +130,7 @@ const seedMemoryDb = async () => {
     {
       _id: 'mem_int_1',
       user: 'mem_user_student_1',
+      userId: 'mem_user_student_1',
       role: 'Software Development Engineer (SDE)',
       experienceLevel: 'Entry-Level / Fresher (0-2 Yrs)',
       difficulty: 'Medium',
@@ -165,16 +166,14 @@ const seedMemoryDb = async () => {
   // 5. DSA Progress
   db.dsaProgress = [
     {
+      _id: 'mem_dsa_1',
       user: 'mem_user_student_1',
+      userId: 'mem_user_student_1',
       topic: 'Arrays',
-      problemId: 'two-sum',
-      completedAt: new Date()
-    },
-    {
-      user: 'mem_user_student_1',
-      topic: 'Strings',
-      problemId: 'valid-anagram',
-      completedAt: new Date()
+      solvedProblems: [
+        { _id: 'prob_1', name: 'Two Sum', difficulty: 'Easy', solvedAt: new Date() }
+      ],
+      progress: 10
     }
   ];
 
@@ -186,6 +185,7 @@ const seedMemoryDb = async () => {
         _id: 'mem_user_student_1',
         name: 'Dev Mishra'
       },
+      userName: 'Dev Mishra',
       rating: 5,
       comment: 'CareerOS helped me clear technical screening rounds at Google! The WebRTC video simulator and SQL compiler are game changers.',
       createdAt: new Date()
@@ -195,15 +195,13 @@ const seedMemoryDb = async () => {
 
 seedMemoryDb();
 
-// Memory Database Data Access Helpers
+// Memory Database Data Access Helpers (With All Aliases)
 export const memoryDb = {
+  db,
+
   // User Operations
-  findUserByEmail: async (email) => {
-    return db.users.find(u => u.email.toLowerCase() === email.toLowerCase());
-  },
-  findUserById: async (id) => {
-    return db.users.find(u => u._id.toString() === id.toString());
-  },
+  findUserByEmail: async (email) => db.users.find(u => u.email.toLowerCase() === (email || '').toLowerCase()),
+  findUserById: async (id) => db.users.find(u => u._id.toString() === (id || '').toString()),
   createUser: async (userData) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(userData.password, salt);
@@ -223,7 +221,7 @@ export const memoryDb = {
     return newUser;
   },
   updateUserById: async (id, updateData) => {
-    const index = db.users.findIndex(u => u._id.toString() === id.toString());
+    const index = db.users.findIndex(u => u._id.toString() === (id || '').toString());
     if (index !== -1) {
       db.users[index] = { ...db.users[index], ...updateData };
       return db.users[index];
@@ -231,7 +229,7 @@ export const memoryDb = {
     return null;
   },
   deleteUserById: async (id) => {
-    const index = db.users.findIndex(u => u._id.toString() === id.toString());
+    const index = db.users.findIndex(u => u._id.toString() === (id || '').toString());
     if (index !== -1) {
       db.users.splice(index, 1);
       return true;
@@ -243,29 +241,20 @@ export const memoryDb = {
   // Company Operations
   getCompanies: async () => db.companies,
   getCompaniesList: async () => db.companies,
-  getCompanyByName: async (name) => db.companies.find(c => (c.name || c.companyName || '').toLowerCase() === name.toLowerCase()),
-  findCompanyByName: async (name) => db.companies.find(c => (c.name || c.companyName || '').toLowerCase() === name.toLowerCase()),
+  getCompanyByName: async (name) => db.companies.find(c => (c.name || c.companyName || '').toLowerCase() === (name || '').toLowerCase()),
+  findCompanyByName: async (name) => db.companies.find(c => (c.name || c.companyName || '').toLowerCase() === (name || '').toLowerCase()),
   createCompany: async (companyData) => {
     const newCompany = { _id: `mem_comp_${Date.now()}`, ...companyData };
     db.companies.push(newCompany);
     return newCompany;
   },
   deleteCompanyByName: async (name) => {
-    const idx = db.companies.findIndex(c => (c.name || c.companyName || '').toLowerCase() === name.toLowerCase());
+    const idx = db.companies.findIndex(c => (c.name || c.companyName || '').toLowerCase() === (name || '').toLowerCase());
     if (idx !== -1) {
       db.companies.splice(idx, 1);
       return true;
     }
     return false;
-  },
-  addExperienceToCompany: async (companyName, experienceData) => {
-    const comp = db.companies.find(c => (c.name || c.companyName || '').toLowerCase() === companyName.toLowerCase());
-    if (comp) {
-      if (!comp.userExperiences) comp.userExperiences = [];
-      comp.userExperiences.push(experienceData);
-      return comp;
-    }
-    return null;
   },
 
   // Job Operations
@@ -275,15 +264,16 @@ export const memoryDb = {
     return db.jobs.filter(j => j.title.toLowerCase().includes(q) || j.companyName.toLowerCase().includes(q) || j.location.toLowerCase().includes(q));
   },
   getJobsList: async () => db.jobs,
-  getJobById: async (id) => db.jobs.find(j => j._id.toString() === id.toString()),
-  getJobsByRecruiter: async (recruiterId) => db.jobs.filter(j => j.postedBy.toString() === recruiterId.toString()),
+  getJobById: async (id) => db.jobs.find(j => j._id.toString() === (id || '').toString()),
+  findJobById: async (id) => db.jobs.find(j => j._id.toString() === (id || '').toString()),
+  getJobsByRecruiter: async (recruiterId) => db.jobs.filter(j => j.postedBy.toString() === (recruiterId || '').toString()),
   createJob: async (jobData) => {
     const newJob = { _id: `mem_job_${Date.now()}`, applicants: [], createdAt: new Date(), ...jobData };
     db.jobs.push(newJob);
     return newJob;
   },
   applyToJob: async (jobId, applicantUser) => {
-    const job = db.jobs.find(j => j._id.toString() === jobId.toString());
+    const job = db.jobs.find(j => j._id.toString() === (jobId || '').toString());
     if (job) {
       const alreadyApplied = job.applicants.some(a => a._id.toString() === applicantUser._id.toString());
       if (!alreadyApplied) {
@@ -301,7 +291,7 @@ export const memoryDb = {
     return null;
   },
   deleteJobById: async (id) => {
-    const idx = db.jobs.findIndex(j => j._id.toString() === id.toString());
+    const idx = db.jobs.findIndex(j => j._id.toString() === (id || '').toString());
     if (idx !== -1) {
       db.jobs.splice(idx, 1);
       return true;
@@ -315,11 +305,12 @@ export const memoryDb = {
     db.interviews.push(newInterview);
     return newInterview;
   },
-  getInterviewById: async (id) => db.interviews.find(i => i._id.toString() === id.toString()),
-  getInterviewsByUser: async (userId) => db.interviews.filter(i => (i.user || i.userId || '').toString() === userId.toString()),
-  findInterviewsByUserId: async (userId) => db.interviews.filter(i => (i.user || i.userId || '').toString() === userId.toString()),
+  getInterviewById: async (id) => db.interviews.find(i => i._id.toString() === (id || '').toString()),
+  findInterviewById: async (id) => db.interviews.find(i => i._id.toString() === (id || '').toString()),
+  getInterviewsByUser: async (userId) => db.interviews.filter(i => (i.user || i.userId || '').toString() === (userId || '').toString()),
+  findInterviewsByUserId: async (userId) => db.interviews.filter(i => (i.user || i.userId || '').toString() === (userId || '').toString()),
   updateInterviewById: async (id, updateData) => {
-    const idx = db.interviews.findIndex(i => i._id.toString() === id.toString());
+    const idx = db.interviews.findIndex(i => i._id.toString() === (id || '').toString());
     if (idx !== -1) {
       db.interviews[idx] = { ...db.interviews[idx], ...updateData };
       return db.interviews[idx];
@@ -328,19 +319,39 @@ export const memoryDb = {
   },
 
   // DSA Operations
-  getDsaProgressByUser: async (userId) => db.dsaProgress.filter(d => (d.user || d.userId || '').toString() === userId.toString()),
-  findDsaProgressByUserId: async (userId) => db.dsaProgress.filter(d => (d.user || d.userId || '').toString() === userId.toString()),
+  getDsaProgressByUser: async (userId) => db.dsaProgress.filter(d => (d.user || d.userId || '').toString() === (userId || '').toString()),
+  findDsaProgressByUserId: async (userId) => db.dsaProgress.filter(d => (d.user || d.userId || '').toString() === (userId || '').toString()),
+  findDsaByUserIdAndTopic: async (userId, topic) => db.dsaProgress.find(d => (d.user || d.userId || '').toString() === (userId || '').toString() && d.topic.toLowerCase() === (topic || '').toLowerCase()),
+  createDsaProgress: async (data) => {
+    const newDsa = {
+      _id: `mem_dsa_${Date.now()}`,
+      userId: data.userId,
+      user: data.userId,
+      topic: data.topic,
+      solvedProblems: [],
+      progress: 0
+    };
+    db.dsaProgress.push(newDsa);
+    return newDsa;
+  },
   saveDsaSolve: async (userId, topic, problemId) => {
-    const existing = db.dsaProgress.find(d => (d.user || d.userId || '').toString() === userId.toString() && d.topic === topic && d.problemId === problemId);
+    const existing = db.dsaProgress.find(d => (d.user || d.userId || '').toString() === (userId || '').toString() && d.topic.toLowerCase() === (topic || '').toLowerCase());
     if (!existing) {
-      const newSolve = { user: userId, topic, problemId, completedAt: new Date() };
+      const newSolve = {
+        _id: `mem_dsa_${Date.now()}`,
+        userId,
+        user: userId,
+        topic,
+        solvedProblems: [{ _id: problemId, name: problemId, difficulty: 'Easy', solvedAt: new Date() }],
+        progress: 10
+      };
       db.dsaProgress.push(newSolve);
       return newSolve;
     }
     return existing;
   },
   deleteDsaSolve: async (userId, topic, problemId) => {
-    const idx = db.dsaProgress.findIndex(d => (d.user || d.userId || '').toString() === userId.toString() && d.topic === topic && d.problemId === problemId);
+    const idx = db.dsaProgress.findIndex(d => (d.user || d.userId || '').toString() === (userId || '').toString() && d.topic.toLowerCase() === (topic || '').toLowerCase());
     if (idx !== -1) {
       db.dsaProgress.splice(idx, 1);
       return true;
@@ -349,10 +360,10 @@ export const memoryDb = {
   },
 
   // Resume Operations
-  findResumeByUserId: async (userId) => db.resumes.find(r => (r.userId || r.user || '').toString() === userId.toString()),
-  getResumesByUser: async (userId) => db.resumes.filter(r => (r.userId || r.user || '').toString() === userId.toString()),
+  findResumeByUserId: async (userId) => db.resumes.find(r => (r.userId || r.user || '').toString() === (userId || '').toString()),
+  getResumesByUser: async (userId) => db.resumes.filter(r => (r.userId || r.user || '').toString() === (userId || '').toString()),
   saveResume: async (userId, resumeData) => {
-    const existingIdx = db.resumes.findIndex(r => (r.userId || r.user || '').toString() === userId.toString());
+    const existingIdx = db.resumes.findIndex(r => (r.userId || r.user || '').toString() === (userId || '').toString());
     if (existingIdx !== -1) {
       db.resumes[existingIdx] = { ...db.resumes[existingIdx], ...resumeData };
       return db.resumes[existingIdx];
@@ -369,6 +380,5 @@ export const memoryDb = {
     const newRev = { _id: `mem_rev_${Date.now()}`, createdAt: new Date(), ...reviewData };
     db.reviews.push(newRev);
     return newRev;
-  },
-  db
+  }
 };

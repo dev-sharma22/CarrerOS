@@ -109,10 +109,10 @@ export const getStudentDashboardStats = async (req, res) => {
       dsaProgress = await DSAProgress.find({ userId });
       resume = await Resume.findOne({ userId });
     } else {
-      user = await memoryDb.findUserById(userId);
-      interviews = await memoryDb.findInterviewsByUserId(userId);
-      dsaProgress = await memoryDb.findDsaProgressByUserId(userId);
-      resume = await memoryDb.findResumeByUserId(userId);
+      user = (typeof memoryDb.findUserById === 'function') ? await memoryDb.findUserById(userId) : null;
+      interviews = (typeof memoryDb.findInterviewsByUserId === 'function') ? await memoryDb.findInterviewsByUserId(userId) : (typeof memoryDb.getInterviewsByUser === 'function' ? await memoryDb.getInterviewsByUser(userId) : []);
+      dsaProgress = (typeof memoryDb.findDsaProgressByUserId === 'function') ? await memoryDb.findDsaProgressByUserId(userId) : (typeof memoryDb.getDsaProgressByUser === 'function' ? await memoryDb.getDsaProgressByUser(userId) : []);
+      resume = (typeof memoryDb.findResumeByUserId === 'function') ? await memoryDb.findResumeByUserId(userId) : null;
     }
 
     if (!user) {
@@ -489,12 +489,12 @@ export const getLeaderboard = async (req, res) => {
     } else {
       const students = memoryDb.db.users.filter(u => u.role === 'student');
       for (const student of students) {
-        const dsaProgress = await memoryDb.findDsaProgressByUserId(student._id);
-        const solvedCount = dsaProgress.reduce((acc, curr) => acc + curr.solvedProblems.length, 0);
+        const dsaProgress = (typeof memoryDb.findDsaProgressByUserId === 'function') ? await memoryDb.findDsaProgressByUserId(student._id) : [];
+        const solvedCount = (dsaProgress || []).reduce((acc, curr) => acc + (curr.solvedProblems ? curr.solvedProblems.length : 0), 0);
         
-        const interviews = await memoryDb.findInterviewsByUserId(student._id);
+        const interviews = (typeof memoryDb.findInterviewsByUserId === 'function') ? await memoryDb.findInterviewsByUserId(student._id) : [];
         const avgScore = interviews.length > 0
-          ? Math.round((interviews.reduce((acc, curr) => acc + curr.score, 0) / interviews.length) * 10) / 10
+          ? Math.round((interviews.reduce((acc, curr) => acc + (curr.score || 0), 0) / interviews.length) * 10) / 10
           : 0;
 
         leaderboard.push({
