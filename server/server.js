@@ -156,4 +156,15 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   logger.info(`TalentSphere server booted on port ${PORT} (${global.isMongoConnected ? 'MongoDB Mode' : 'Memory Mode'})`);
+
+  // Automatic Render Self-Ping Keep-Alive (Prevents Cloud Service Sleep)
+  const renderUrl = process.env.RENDER_EXTERNAL_URL;
+  if (renderUrl) {
+    const TEN_MINUTES = 10 * 60 * 1000;
+    setInterval(() => {
+      fetch(`${renderUrl}/ping`)
+        .then(() => logger.info(`Render Keep-Alive ping dispatched to ${renderUrl}/ping`))
+        .catch((err) => logger.error(`Render Keep-Alive ping error: ${err.message}`));
+    }, TEN_MINUTES);
+  }
 });
