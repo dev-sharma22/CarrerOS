@@ -212,7 +212,7 @@ export const Landing = () => {
                   </div>
                   <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-300">
                     <GraduationCap className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                    <span>B.Tech in Computer Science &amp; Technology &bull; <strong className="text-emerald-300">Medi-Caps University</strong></span>
+                    <span>B.Tech in Computer Science &amp; Technology</span>
                   </div>
                 </div>
               </div>
