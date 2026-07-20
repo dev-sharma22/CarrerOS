@@ -9,5 +9,13 @@ services:
         value: production
       - key: PORT
         value: 5000
+      - key: JWT_SECRET
+        value: careeros_jwt_secure_secret_2026_production
+      - key: JWT_REFRESH_SECRET
+        value: careeros_jwt_refresh_secret_2026_production
       - key: MONGO_URI
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
         sync: false
