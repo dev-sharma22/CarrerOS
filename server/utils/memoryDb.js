@@ -200,7 +200,8 @@ export const memoryDb = {
   db,
 
   // User Operations
-  findUserByEmail: async (email) => db.users.find(u => u.email.toLowerCase() === (email || '').toLowerCase()),
+  findUserByEmail: async (email) => db.users.find(u => u.email.toLowerCase().trim() === (email || '').toLowerCase().trim()),
+  findUserByName: async (name) => db.users.find(u => (u.name || '').toLowerCase().trim() === (name || '').toLowerCase().trim()),
   findUserById: async (id) => db.users.find(u => u._id.toString() === (id || '').toString()),
   createUser: async (userData) => {
     const salt = await bcrypt.genSalt(10);

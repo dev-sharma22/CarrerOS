@@ -30,19 +30,28 @@ export const registerUser = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please provide name, email, and password' });
   }
 
-  const normalizedEmail = email.toLowerCase().trim();
+    const normalizedEmail = email.toLowerCase().trim();
+    const trimmedName = name.trim();
 
-  try {
-    let userExists;
-    if (global.isMongoConnected) {
-      userExists = await User.findOne({ email: normalizedEmail });
-    } else {
-      userExists = await memoryDb.findUserByEmail(normalizedEmail);
-    }
+    try {
+      let emailExists;
+      let nameExists;
 
-    if (userExists) {
-      return res.status(400).json({ success: false, message: 'User already exists with this email' });
-    }
+      if (global.isMongoConnected) {
+        emailExists = await User.findOne({ email: normalizedEmail });
+        nameExists = await User.findOne({ name: { $regex: new RegExp(`^${trimmedName}$`, 'i') } });
+      } else {
+        emailExists = await memoryDb.findUserByEmail(normalizedEmail);
+        nameExists = await memoryDb.findUserByName(trimmedName);
+      }
+
+      if (emailExists) {
+        return res.status(400).json({ success: false, message: 'Account already exists with this email address.' });
+      }
+
+      if (nameExists) {
+        return res.status(400).json({ success: false, message: 'Username already taken. Please choose a unique name/username.' });
+      }
 
     let user;
     if (global.isMongoConnected) {

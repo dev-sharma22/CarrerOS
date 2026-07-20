@@ -161,6 +161,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('talentsphere_refresh_token');
     localStorage.removeItem('talentsphere_user_avatar');
     localStorage.removeItem('talentsphere_cache_state');
+    try { sessionStorage.clear(); } catch (_) {}
     if (socket) {
       try { socket.disconnect(); } catch (_) {}
     }

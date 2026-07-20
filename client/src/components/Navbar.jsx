@@ -27,7 +27,10 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/login', { replace: true });
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 150);
   };
 
   return (
