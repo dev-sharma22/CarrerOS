@@ -122,11 +122,12 @@ export const getStudentDashboardStats = async (req, res) => {
     interviews = interviews || [];
     dsaProgress = dsaProgress || [];
 
-    // Calculate completion
-    let profileCompletion = 25;
+    // Calculate completion (Starts at 0% for new students)
+    let profileCompletion = 0;
     if (user.skills && user.skills.length > 0) profileCompletion += 25;
     if (user.education && user.education.length > 0) profileCompletion += 25;
     if (user.resumeURL && user.resumeURL.trim() !== '') profileCompletion += 25;
+    if ((interviews && interviews.length > 0) || (dsaProgress && dsaProgress.some(d => d.solvedProblems && d.solvedProblems.length > 0))) profileCompletion += 25;
 
     const interviewCount = interviews.length;
     const avgScore = interviewCount > 0 

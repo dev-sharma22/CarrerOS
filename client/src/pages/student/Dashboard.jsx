@@ -66,7 +66,7 @@ export const Dashboard = () => {
   }
 
   const {
-    profileCompletion = 25,
+    profileCompletion = 0,
     interviewCount = 0,
     avgScore = 0,
     totalProblemsSolved = 0,
