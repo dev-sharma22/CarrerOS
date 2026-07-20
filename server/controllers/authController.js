@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
 import { memoryDb } from '../utils/memoryDb.js';
+import { sendPasswordResetEmail, sendLoginOtpEmail } from '../services/emailService.js';
 
 // Access token expires in 1 hour
 const generateAccessToken = (id) => {
@@ -154,14 +155,17 @@ export const loginUser = async (req, res) => {
         user.loginOTPExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
         await user.save();
       } else {
-        await memoryDb.saveLoginOtp(email, otp);
+        await memoryDb.saveLoginOtp(normalizedEmail, otp);
       }
+
+      // Dispatch 2FA OTP Email to target recipient's specific Gmail address
+      await sendLoginOtpEmail(normalizedEmail, otp);
 
       return res.json({
         success: true,
         otpRequired: true,
         email: user.email,
-        message: `Credentials verified. 6-Digit Login OTP sent to ${user.email}`,
+        message: `Credentials verified. 6-Digit Login OTP dispatched to ${user.email}`,
         otpPreview: otp
       });
     } else {
@@ -332,12 +336,14 @@ export const forgotPassword = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please provide registered email address' });
   }
 
+  const normalizedEmail = email.toLowerCase().trim();
+
   try {
     let user;
     if (global.isMongoConnected) {
-      user = await User.findOne({ email });
+      user = await User.findOne({ email: normalizedEmail });
     } else {
-      user = await memoryDb.findUserByEmail(email);
+      user = await memoryDb.findUserByEmail(normalizedEmail);
     }
 
     if (!user) {
@@ -352,12 +358,15 @@ export const forgotPassword = async (req, res) => {
       user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
       await user.save();
     } else {
-      await memoryDb.saveResetOtp(email, otp);
+      await memoryDb.saveResetOtp(normalizedEmail, otp);
     }
+
+    // Dispatch Password Reset OTP Email to target recipient's specific Gmail address
+    await sendPasswordResetEmail(normalizedEmail, otp);
 
     res.status(200).json({
       success: true,
-      message: `Password reset OTP generated successfully for ${email}.`,
+      message: `Password reset OTP code dispatched to ${normalizedEmail}.`,
       otpPreview: otp // Preview OTP for instant verification
     });
   } catch (error) {
