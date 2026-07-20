@@ -519,20 +519,23 @@ export const getLeaderboard = async (req, res) => {
 
 // @desc    Submit a support ticket
 // @route   POST /api/users/support-ticket
-// @access  Private
+// @access  Public (Guest & Logged In Users)
 export const submitSupportTicket = async (req, res) => {
-  const { subject, category, message } = req.body;
+  const { subject, category, message, email, name } = req.body;
   if (!subject || !message) {
     return res.status(400).json({ success: false, message: 'Please provide ticket subject and message.' });
   }
+
+  const targetEmail = (req.user?.email || email || 'guest@careeros.com').toLowerCase().trim();
+  const targetName = req.user?.name || name || 'Guest Visitor';
 
   try {
     const ticketId = `TICKET-${Math.floor(100000 + Math.random() * 900000)}`;
     const ticketData = {
       ticketId,
       userId: req.user?._id || 'guest',
-      userName: req.user?.name || 'User',
-      userEmail: req.user?.email || 'user@careeros.com',
+      userName: targetName,
+      userEmail: targetEmail,
       subject,
       category: category || 'General Support',
       message,

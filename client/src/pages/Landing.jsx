@@ -10,6 +10,8 @@ export const Landing = () => {
   const [ticketSubject, setTicketSubject] = useState('');
   const [ticketCategory, setTicketCategory] = useState('Technical Issue');
   const [ticketMessage, setTicketMessage] = useState('');
+  const [ticketEmail, setTicketEmail] = useState(user?.email || '');
+  const [ticketName, setTicketName] = useState(user?.name || '');
   const [ticketLoading, setTicketLoading] = useState(false);
   const [ticketSuccess, setTicketSuccess] = useState('');
   const [ticketError, setTicketError] = useState('');
@@ -26,7 +28,9 @@ export const Landing = () => {
       const res = await authAPI.submitSupportTicket({
         subject: ticketSubject,
         category: ticketCategory,
-        message: ticketMessage
+        message: ticketMessage,
+        email: user?.email || ticketEmail,
+        name: user?.name || ticketName
       });
 
       if (res.success) {
@@ -263,6 +267,37 @@ export const Landing = () => {
             )}
 
             <form onSubmit={handleSupportSubmit} className="mt-5 space-y-4">
+              {!user && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Your Full Name"
+                      value={ticketName}
+                      onChange={(e) => setTicketName(e.target.value)}
+                      required
+                      className="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">
+                      Your Email Address
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="name@example.com"
+                      value={ticketEmail}
+                      onChange={(e) => setTicketEmail(e.target.value)}
+                      required
+                      className="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                </div>
+              )}
+
               <div>
                 <label className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">
                   Issue Category

@@ -29,7 +29,7 @@ router.post('/notes', protect, addUserNote);
 router.delete('/notes/:id', protect, deleteUserNote);
 router.post('/bookmarks', protect, addUserBookmark);
 router.delete('/bookmarks/:id', protect, removeUserBookmark);
-router.post('/support-ticket', protect, submitSupportTicket);
+router.post('/support-ticket', submitSupportTicket);
 
 // Admin Routes
 router.get('/admin/users', protect, authorize('admin'), adminGetUsers);
