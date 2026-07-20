@@ -6,8 +6,8 @@ export const ResumeBuilder = () => {
   const [personal, setPersonal] = useState({
     name: 'Dev Mishra',
     email: 'devmishraa22@gmail.com',
-    phone: '+1 (555) 234-5678',
-    location: 'San Francisco, CA',
+    phone: '+91 98765 43210',
+    location: 'Indore, MP, India',
     linkedin: 'linkedin.com/in/devmishra',
     github: 'github.com/devmishra',
     summary: 'Passionate Full-Stack Software Engineer with experience in React, Node.js, WebRTC, and distributed system architectures. Seeking SDE role at top tier tech enterprise.'
