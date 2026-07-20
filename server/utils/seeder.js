@@ -43,9 +43,9 @@ const seedData = async () => {
 
     // 1. Create Core Users
     const admin = await User.create({
-      name: 'System Administrator',
-      email: 'admin@talentsphere.com',
-      password: 'adminpassword123',
+      name: 'Dev Sharma (Platform Owner)',
+      email: 'admin.devsharma@careeros.com',
+      password: 'DevSharma#Admin2026!Pass',
       role: 'admin'
     });
 

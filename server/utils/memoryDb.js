@@ -22,9 +22,9 @@ const seedMemoryDb = async () => {
   db.users = [
     {
       _id: 'mem_user_admin_1',
-      name: 'System Administrator',
-      email: 'admin@talentsphere.com',
-      password: await hashPassword('adminpassword123'),
+      name: 'Dev Sharma (Platform Owner)',
+      email: 'admin.devsharma@careeros.com',
+      password: await hashPassword('DevSharma#Admin2026!Pass'),
       role: 'admin',
       skills: [],
       education: [],

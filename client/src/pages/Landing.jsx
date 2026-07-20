@@ -175,12 +175,50 @@ export const Landing = () => {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200/50 dark:border-slate-900 bg-slate-100/50 dark:bg-slate-950/60 py-10">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© 2026 CareerOS Placement Platform. All rights reserved.</p>
-          <div className="flex items-center gap-2 text-slate-400">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Encrypted WebRTC & JWT Security Protection</span>
+      <footer className="border-t border-slate-200/50 dark:border-slate-800/60 bg-white/50 dark:bg-slate-950/80 backdrop-blur-xl py-12 relative z-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center border-b border-slate-200/50 dark:border-slate-800/50 pb-8">
+            {/* Brand Logo & Name */}
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-500 text-white shadow-md shadow-emerald-500/20">
+                  <Sparkles className="w-4 h-4 text-emerald-200 animate-pulse" />
+                </div>
+                <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
+                  Career<span className="text-emerald-500 dark:text-emerald-400">OS</span>
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Commercial placement & AI career simulator platform for engineering candidates.
+              </p>
+            </div>
+
+            {/* Developer Details & Contact */}
+            <div className="md:col-span-2 glass-card rounded-2xl p-5 border border-slate-200/60 dark:border-slate-800/80 bg-slate-900/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 block">Lead Platform Engineer</span>
+                <h4 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+                  <span>Dev Sharma</span>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] font-bold">Lead Developer</span>
+                </h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Architect & Creator of CareerOS AI placement platform</p>
+              </div>
+
+              <a
+                href="mailto:Devmishraa22@gmail.com"
+                className="px-4 py-2.5 rounded-xl btn-gradient-saas text-xs font-bold shadow-lg shadow-emerald-500/20 flex items-center gap-2 shrink-0 cursor-pointer"
+              >
+                <span>Devmishraa22@gmail.com</span>
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>© 2026 CareerOS Platform. Designed & Engineered by Dev Sharma.</p>
+            <div className="flex items-center gap-2 text-slate-400 font-mono text-[10px]">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>Encrypted WebRTC & JWT Security Protection</span>
+            </div>
           </div>
         </div>
       </footer>

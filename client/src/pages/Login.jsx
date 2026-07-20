@@ -148,39 +148,26 @@ export const Login = () => {
             </Button>
           </form>
 
-          {/* Test Account Helper Links */}
-          <div className="border-t border-slate-800 pt-4">
-            <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3 text-center">
-              Quick Test Accounts
+          {/* Clean Role Registration Options */}
+          <div className="border-t border-slate-800 pt-4 space-y-3">
+            <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center">
+              New Candidate or Hiring Manager?
             </span>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                onClick={() => fillTestCreds('student')}
-                className="py-1.5 px-2 rounded-lg bg-slate-800/40 hover:bg-slate-850 border border-slate-700/30 text-[10px] font-semibold text-slate-300 flex items-center justify-center gap-1 cursor-pointer"
+            <div className="grid grid-cols-2 gap-3">
+              <Link
+                to="/register"
+                className="py-2.5 px-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs font-bold text-emerald-300 text-center transition-all cursor-pointer"
               >
-                <Key className="w-3 h-3 text-emerald-400" /> Student
-              </button>
-              <button
-                onClick={() => fillTestCreds('recruiter')}
-                className="py-1.5 px-2 rounded-lg bg-slate-800/40 hover:bg-slate-850 border border-slate-700/30 text-[10px] font-semibold text-slate-300 flex items-center justify-center gap-1 cursor-pointer"
+                Register as Student
+              </Link>
+              <Link
+                to="/register"
+                className="py-2.5 px-3 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-xs font-bold text-purple-300 text-center transition-all cursor-pointer"
               >
-                <Key className="w-3 h-3 text-purple-400" /> Recruiter
-              </button>
-              <button
-                onClick={() => fillTestCreds('admin')}
-                className="py-1.5 px-2 rounded-lg bg-slate-800/40 hover:bg-slate-850 border border-slate-700/30 text-[10px] font-semibold text-slate-300 flex items-center justify-center gap-1 cursor-pointer"
-              >
-                <Key className="w-3 h-3 text-cyan-400" /> Admin
-              </button>
+                Register as Recruiter
+              </Link>
             </div>
           </div>
-
-          <p className="text-center text-xs text-slate-400">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-emerald-400 hover:text-emerald-300 font-semibold underline">
-              Create an account
-            </Link>
-          </p>
         </div>
       </div>
 
