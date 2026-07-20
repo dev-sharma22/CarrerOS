@@ -36,6 +36,7 @@ api.interceptors.response.use(
 
 export const authAPI = {
   login: (data) => api.post('/auth/login', data),
+  verifyLoginOtp: (data) => api.post('/auth/verify-login-otp', data),
   register: (data) => api.post('/auth/register', data),
   qrLogin: (qrToken) => api.post('/auth/qr-login', { qrToken }),
   getProfile: () => api.get('/users/profile'),

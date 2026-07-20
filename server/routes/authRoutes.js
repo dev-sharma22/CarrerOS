@@ -1,11 +1,12 @@
 import express from 'express';
-import { registerUser, loginUser, qrLoginUser, refreshAccessToken, forgotPassword, resetPassword } from '../controllers/authController.js';
+import { registerUser, loginUser, qrLoginUser, refreshAccessToken, forgotPassword, resetPassword, verifyLoginOtp } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+router.post('/verify-login-otp', verifyLoginOtp);
 router.post('/qr-login', qrLoginUser);
 router.post('/refresh', refreshAccessToken);
 router.post('/forgot-password', forgotPassword);

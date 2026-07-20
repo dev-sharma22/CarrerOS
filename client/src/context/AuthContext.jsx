@@ -83,7 +83,11 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       const res = await authAPI.login({ email, password });
-      if (res.success) {
+      if (res.otpRequired) {
+        showToast('OTP Required', res.message || '6-Digit Login OTP sent to your email.', 'info');
+        return res;
+      }
+      if (res.success && res.token) {
         localStorage.setItem('talentsphere_token', res.token);
         // Load full user object details
         const profileRes = await authAPI.getProfile();
@@ -98,6 +102,30 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       setLoading(false);
       showToast('Login Failed', error.message, 'error');
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const verifyLoginOtp = async (email, otp) => {
+    try {
+      setLoading(true);
+      const res = await authAPI.verifyLoginOtp({ email, otp });
+      if (res.success && res.token) {
+        localStorage.setItem('talentsphere_token', res.token);
+        const profileRes = await authAPI.getProfile();
+        if (profileRes.success) {
+          setUser(profileRes.user);
+        } else {
+          setUser({ _id: res._id, name: res.name, email: res.email, role: res.role });
+        }
+        showToast('Authentication Verified', `Welcome back, ${res.name || 'User'}!`, 'success');
+        return res;
+      }
+    } catch (error) {
+      setLoading(false);
+      showToast('Verification Failed', error.message, 'error');
       throw error;
     } finally {
       setLoading(false);
@@ -160,6 +188,7 @@ export const AuthProvider = ({ children }) => {
     loading,
     darkMode,
     login,
+    verifyLoginOtp,
     register,
     logout,
     updateProfile,

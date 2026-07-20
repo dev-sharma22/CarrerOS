@@ -256,6 +256,24 @@ export const memoryDb = {
     }
     return false;
   },
+  saveLoginOtp: async (email, otp) => {
+    const user = db.users.find(u => u.email.toLowerCase() === (email || '').toLowerCase());
+    if (user) {
+      user.loginOTP = otp;
+      user.loginOTPExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+      return true;
+    }
+    return false;
+  },
+  verifyLoginOtp: async (email, otp) => {
+    const user = db.users.find(u => u.email.toLowerCase() === (email || '').toLowerCase());
+    if (user && user.loginOTP === otp && user.loginOTPExpires > Date.now()) {
+      user.loginOTP = '';
+      user.loginOTPExpires = null;
+      return user;
+    }
+    return null;
+  },
   getUsersList: async () => db.users,
 
   // Company Operations

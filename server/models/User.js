@@ -31,6 +31,8 @@ const userSchema = new mongoose.Schema({
   refreshToken: { type: String, default: '' },
   resetPasswordOTP: { type: String, default: '' },
   resetPasswordExpires: { type: Date },
+  loginOTP: { type: String, default: '' },
+  loginOTPExpires: { type: Date },
   bookmarks: [{ type: String }],
   achievements: [{
     title: { type: String, required: true },

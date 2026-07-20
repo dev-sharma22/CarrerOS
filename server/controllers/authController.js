@@ -134,27 +134,23 @@ export const loginUser = async (req, res) => {
       // Clear failed attempts on success
       failedAttemptsMap.delete(clientKey);
 
-      const finalAccessToken = generateAccessToken(user._id);
-      const finalRefreshToken = generateRefreshToken(user._id);
-      const qrToken = generateQrToken(user._id);
+      // Generate 6-digit Login OTP
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
       if (global.isMongoConnected) {
-        user.refreshToken = finalRefreshToken;
-        user.qrCodeToken = qrToken;
+        user.loginOTP = otp;
+        user.loginOTPExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
         await user.save();
       } else {
-        await memoryDb.updateUserById(user._id, { refreshToken: finalRefreshToken, qrCodeToken: qrToken });
+        await memoryDb.saveLoginOtp(email, otp);
       }
 
-      res.json({
+      return res.json({
         success: true,
-        _id: user._id,
-        name: user.name,
+        otpRequired: true,
         email: user.email,
-        role: user.role,
-        qrToken,
-        token: finalAccessToken,
-        refreshToken: finalRefreshToken
+        message: `Credentials verified. 6-Digit Login OTP sent to ${user.email}`,
+        otpPreview: otp
       });
     } else {
       // Increment failed attempt counter
@@ -171,6 +167,64 @@ export const loginUser = async (req, res) => {
           : `Invalid email or password. (${MAX_FAILED_ATTEMPTS - attemptInfo.count} attempts remaining)`
       });
     }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Verify 6-digit Login OTP and complete Sign-In
+// @route   POST /api/auth/verify-login-otp
+// @access  Public
+export const verifyLoginOtp = async (req, res) => {
+  const { email, otp } = req.body;
+  if (!email || !otp) {
+    return res.status(400).json({ success: false, message: 'Please provide email and 6-digit OTP code' });
+  }
+
+  try {
+    let user;
+    if (global.isMongoConnected) {
+      user = await User.findOne({
+        email,
+        loginOTP: otp,
+        loginOTPExpires: { $gt: Date.now() }
+      });
+
+      if (user) {
+        user.loginOTP = '';
+        user.loginOTPExpires = null;
+        await user.save();
+      }
+    } else {
+      user = await memoryDb.verifyLoginOtp(email, otp);
+    }
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired 6-digit OTP code. Please try again.' });
+    }
+
+    const finalAccessToken = generateAccessToken(user._id);
+    const finalRefreshToken = generateRefreshToken(user._id);
+    const qrToken = generateQrToken(user._id);
+
+    if (global.isMongoConnected) {
+      user.refreshToken = finalRefreshToken;
+      user.qrCodeToken = qrToken;
+      await user.save();
+    } else {
+      await memoryDb.updateUserById(user._id, { refreshToken: finalRefreshToken, qrCodeToken: qrToken });
+    }
+
+    res.json({
+      success: true,
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      qrToken,
+      token: finalAccessToken,
+      refreshToken: finalRefreshToken
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
