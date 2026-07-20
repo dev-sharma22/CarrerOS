@@ -516,3 +516,42 @@ export const getLeaderboard = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// @desc    Submit a support ticket
+// @route   POST /api/users/support-ticket
+// @access  Private
+export const submitSupportTicket = async (req, res) => {
+  const { subject, category, message } = req.body;
+  if (!subject || !message) {
+    return res.status(400).json({ success: false, message: 'Please provide ticket subject and message.' });
+  }
+
+  try {
+    const ticketId = `TICKET-${Math.floor(100000 + Math.random() * 900000)}`;
+    const ticketData = {
+      ticketId,
+      userId: req.user?._id || 'guest',
+      userName: req.user?.name || 'User',
+      userEmail: req.user?.email || 'user@careeros.com',
+      subject,
+      category: category || 'General Support',
+      message,
+      createdAt: new Date()
+    };
+
+    if (!memoryDb.db.supportTickets) {
+      memoryDb.db.supportTickets = [];
+    }
+    memoryDb.db.supportTickets.push(ticketData);
+
+    console.log(`[SUPPORT TICKET CREATED] ID: ${ticketId} | Subject: "${subject}" by ${ticketData.userEmail}`);
+
+    res.status(201).json({
+      success: true,
+      message: `Support ticket ${ticketId} generated successfully! Our support team will review your ticket.`,
+      ticketId
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

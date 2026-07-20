@@ -64,6 +64,7 @@ export const authAPI = {
   refresh: (refreshToken) => api.post('/auth/refresh', { refreshToken }),
   forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
   resetPassword: (data) => api.post('/auth/reset-password', data),
+  submitSupportTicket: (data) => api.post('/users/support-ticket', data),
   
   // Notes
   addNote: (data) => api.post('/users/notes', data),

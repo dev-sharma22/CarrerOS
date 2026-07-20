@@ -311,19 +311,24 @@ export const memoryDb = {
     db.jobs.push(newJob);
     return newJob;
   },
+  applyJob: async (jobId, userId) => {
+    const job = db.jobs.find(j => j._id.toString() === (jobId || '').toString());
+    if (job) {
+      if (!job.applicants) job.applicants = [];
+      const alreadyApplied = job.applicants.some(a => (a._id || a).toString() === (userId || '').toString());
+      if (alreadyApplied) return false;
+      job.applicants.push(userId);
+      return true;
+    }
+    return false;
+  },
   applyToJob: async (jobId, applicantUser) => {
     const job = db.jobs.find(j => j._id.toString() === (jobId || '').toString());
     if (job) {
-      const alreadyApplied = job.applicants.some(a => a._id.toString() === applicantUser._id.toString());
+      if (!job.applicants) job.applicants = [];
+      const alreadyApplied = job.applicants.some(a => (a._id || a).toString() === (applicantUser._id || applicantUser).toString());
       if (!alreadyApplied) {
-        job.applicants.push({
-          _id: applicantUser._id,
-          name: applicantUser.name,
-          email: applicantUser.email,
-          skills: applicantUser.skills || [],
-          education: applicantUser.education || [],
-          resumeURL: applicantUser.resumeURL || ''
-        });
+        job.applicants.push(applicantUser._id || applicantUser);
       }
       return job;
     }
