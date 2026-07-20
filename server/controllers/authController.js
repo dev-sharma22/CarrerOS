@@ -31,28 +31,19 @@ export const registerUser = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please provide name, email, and password' });
   }
 
-    const normalizedEmail = email.toLowerCase().trim();
-    const trimmedName = name.trim();
+  const normalizedEmail = email.toLowerCase().trim();
 
-    try {
-      let emailExists;
-      let nameExists;
+  try {
+    let emailExists;
+    if (global.isMongoConnected) {
+      emailExists = await User.findOne({ email: normalizedEmail });
+    } else {
+      emailExists = await memoryDb.findUserByEmail(normalizedEmail);
+    }
 
-      if (global.isMongoConnected) {
-        emailExists = await User.findOne({ email: normalizedEmail });
-        nameExists = await User.findOne({ name: { $regex: new RegExp(`^${trimmedName}$`, 'i') } });
-      } else {
-        emailExists = await memoryDb.findUserByEmail(normalizedEmail);
-        nameExists = await memoryDb.findUserByName(trimmedName);
-      }
-
-      if (emailExists) {
-        return res.status(400).json({ success: false, message: 'Account already exists with this email address.' });
-      }
-
-      if (nameExists) {
-        return res.status(400).json({ success: false, message: 'Username already taken. Please choose a unique name/username.' });
-      }
+    if (emailExists) {
+      return res.status(400).json({ success: false, message: 'Account already exists with this email address.' });
+    }
 
     let user;
     if (global.isMongoConnected) {
@@ -75,11 +66,12 @@ export const registerUser = async (req, res) => {
     const finalRefreshToken = generateRefreshToken(user._id);
     const qrToken = generateQrToken(user._id);
 
-    // Save final refresh token and QR token
+    // Save final refresh token and QR token using findByIdAndUpdate to prevent double-hashing password
     if (global.isMongoConnected) {
-      user.refreshToken = finalRefreshToken;
-      user.qrCodeToken = qrToken;
-      await user.save();
+      await User.findByIdAndUpdate(user._id, {
+        refreshToken: finalRefreshToken,
+        qrCodeToken: qrToken
+      });
     } else {
       await memoryDb.updateUserById(user._id, { refreshToken: finalRefreshToken, qrCodeToken: qrToken });
     }
