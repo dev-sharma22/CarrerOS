@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   FileText,
@@ -22,12 +22,21 @@ import {
 import useAuth from '../hooks/useAuth';
 
 export const Sidebar = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
 
   if (!user) return null;
 
   const role = user.role;
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+    setTimeout(() => {
+      window.location.href = '/login';
+    }, 150);
+  };
 
   const menuItems = {
     student: [
@@ -124,10 +133,7 @@ export const Sidebar = () => {
 
         {/* Quick Sign Out Action */}
         <button
-          onClick={() => {
-            logout();
-            window.location.href = '/login';
-          }}
+          onClick={handleLogout}
           className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-red-400 hover:bg-red-500/10 border border-red-500/10 hover:border-red-500/30 transition-all cursor-pointer ${
             collapsed ? 'justify-center' : ''
           }`}

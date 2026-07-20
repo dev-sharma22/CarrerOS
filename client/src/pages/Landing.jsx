@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Bot, Terminal, Code2, ShieldCheck, Flame, Briefcase, Sparkles, CheckCircle2, ArrowRight, Zap, Star } from 'lucide-react';
+import { Bot, Terminal, Code2, ShieldCheck, Flame, Briefcase, Sparkles, CheckCircle2, ArrowRight, Zap, Star, Mail } from 'lucide-react';
 import useAuth from '../hooks/useAuth';
 
 export const Landing = () => {
@@ -193,22 +193,34 @@ export const Landing = () => {
               </p>
             </div>
 
-            {/* Developer Details & Contact */}
-            <div className="md:col-span-2 glass-card rounded-2xl p-5 border border-slate-200/60 dark:border-slate-800/80 bg-slate-900/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 block">Lead Platform Engineer</span>
-                <h4 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  <span>Dev Sharma</span>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] font-bold">Lead Developer</span>
-                </h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Architect & Creator of CareerOS AI placement platform</p>
+            {/* Eye-Catching Glowing Developer Banner */}
+            <div className="md:col-span-2 rounded-3xl p-6 bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/90 border-2 border-emerald-500/60 shadow-2xl shadow-emerald-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 relative overflow-hidden group hover:border-emerald-400 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all" />
+              
+              <div className="flex items-center gap-4 relative z-10">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-indigo-600 text-white shadow-xl shadow-emerald-500/30 group-hover:scale-105 transition-transform">
+                  <Code2 className="w-7 h-7 text-white animate-pulse" />
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+                      Lead Platform Architect
+                    </span>
+                    <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                  </div>
+                  <h4 className="text-xl font-black text-white tracking-tight flex items-center gap-2">
+                    Dev Sharma
+                  </h4>
+                  <p className="text-xs text-slate-300 font-medium">Creator & Engine Architect of CareerOS AI Platform</p>
+                </div>
               </div>
 
               <a
                 href="mailto:Devmishraa22@gmail.com"
-                className="px-4 py-2.5 rounded-xl btn-gradient-saas text-xs font-bold shadow-lg shadow-emerald-500/20 flex items-center gap-2 shrink-0 cursor-pointer"
+                className="px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-white text-xs font-black shadow-xl shadow-emerald-500/30 hover:scale-105 transition-all flex items-center gap-2.5 shrink-0 cursor-pointer relative z-10 border border-emerald-300/30"
               >
-                <span>Devmishraa22@gmail.com</span>
+                <Mail className="w-4 h-4 text-emerald-100" />
+                <span className="tracking-wide">Devmishraa22@gmail.com</span>
               </a>
             </div>
           </div>

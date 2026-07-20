@@ -30,12 +30,14 @@ export const registerUser = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please provide name, email, and password' });
   }
 
+  const normalizedEmail = email.toLowerCase().trim();
+
   try {
     let userExists;
     if (global.isMongoConnected) {
-      userExists = await User.findOne({ email });
+      userExists = await User.findOne({ email: normalizedEmail });
     } else {
-      userExists = await memoryDb.findUserByEmail(email);
+      userExists = await memoryDb.findUserByEmail(normalizedEmail);
     }
 
     if (userExists) {
@@ -45,15 +47,15 @@ export const registerUser = async (req, res) => {
     let user;
     if (global.isMongoConnected) {
       user = await User.create({
-        name,
-        email,
+        name: name.trim(),
+        email: normalizedEmail,
         password,
         role: role || 'student'
       });
     } else {
       user = await memoryDb.createUser({
-        name,
-        email,
+        name: name.trim(),
+        email: normalizedEmail,
         password,
         role: role || 'student'
       });
@@ -102,7 +104,8 @@ export const loginUser = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please provide email and password' });
   }
 
-  const clientKey = `${req.ip}_${email.toLowerCase()}`;
+  const normalizedEmail = email.toLowerCase().trim();
+  const clientKey = `${req.ip}_${normalizedEmail}`;
   const attemptInfo = failedAttemptsMap.get(clientKey) || { count: 0, lockUntil: 0 };
 
   // Check if locked out
@@ -119,12 +122,12 @@ export const loginUser = async (req, res) => {
     let isMatch = false;
 
     if (global.isMongoConnected) {
-      user = await User.findOne({ email });
+      user = await User.findOne({ email: normalizedEmail });
       if (user) {
         isMatch = await user.comparePassword(password);
       }
     } else {
-      user = await memoryDb.findUserByEmail(email);
+      user = await memoryDb.findUserByEmail(normalizedEmail);
       if (user) {
         isMatch = await bcrypt.compare(password, user.password);
       }
