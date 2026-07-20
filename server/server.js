@@ -113,6 +113,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// Health & Uptime Ping Endpoints
+app.get('/ping', (req, res) => res.status(200).send('pong'));
+app.get('/api/health', (req, res) => res.status(200).json({ success: true, status: 'operational', timestamp: new Date() }));
+
 // Setup Static Folder for Resume uploads
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

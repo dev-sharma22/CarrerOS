@@ -20,11 +20,30 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response Interceptor: Format error messages
+// Response Interceptor: Format error messages & auto-retry on Render cold starts (502/503/504 or network timeouts)
 api.interceptors.response.use(
   (response) => response.data,
-  (error) => {
-    const message = error.response?.data?.message || 'Server error occurred. Please try again.';
+  async (error) => {
+    const config = error.config;
+    if (!config) return Promise.reject(error);
+
+    config.__retryCount = config.__retryCount || 0;
+
+    const isColdStartError =
+      !error.response ||
+      error.response.status === 502 ||
+      error.response.status === 503 ||
+      error.response.status === 504 ||
+      error.code === 'ECONNABORTED';
+
+    if (isColdStartError && config.__retryCount < 3) {
+      config.__retryCount += 1;
+      console.log(`Render Cloud spin-up detected. Retrying request (${config.__retryCount}/3)...`);
+      await new Promise((resolve) => setTimeout(resolve, 2500));
+      return api(config);
+    }
+
+    const message = error.response?.data?.message || 'Server is waking up from cloud sleep. Please try again in a few seconds.';
     console.error('API Error Response:', message);
     return Promise.reject(new Error(message));
   }
