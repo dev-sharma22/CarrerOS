@@ -256,3 +256,92 @@ export const refreshAccessToken = async (req, res) => {
     res.status(401).json({ success: false, message: 'Refresh token expired or invalid' });
   }
 };
+
+// @desc    Request Password Reset OTP
+// @route   POST /api/auth/forgot-password
+// @access  Public
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ success: false, message: 'Please provide registered email address' });
+  }
+
+  try {
+    let user;
+    if (global.isMongoConnected) {
+      user = await User.findOne({ email });
+    } else {
+      user = await memoryDb.findUserByEmail(email);
+    }
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'No account registered with this email address.' });
+    }
+
+    // Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    if (global.isMongoConnected) {
+      user.resetPasswordOTP = otp;
+      user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+      await user.save();
+    } else {
+      await memoryDb.saveResetOtp(email, otp);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Password reset OTP generated successfully for ${email}.`,
+      otpPreview: otp // Preview OTP for instant verification
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Reset Password with OTP
+// @route   POST /api/auth/reset-password
+// @access  Public
+export const resetPassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+  if (!email || !otp || !newPassword) {
+    return res.status(400).json({ success: false, message: 'Please fill in all fields (email, OTP, new password)' });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long' });
+  }
+
+  try {
+    let success = false;
+
+    if (global.isMongoConnected) {
+      const user = await User.findOne({
+        email,
+        resetPasswordOTP: otp,
+        resetPasswordExpires: { $gt: Date.now() }
+      });
+
+      if (user) {
+        user.password = newPassword; // Pre-save hook will hash it
+        user.resetPasswordOTP = '';
+        user.resetPasswordExpires = null;
+        await user.save();
+        success = true;
+      }
+    } else {
+      success = await memoryDb.resetPasswordWithOtp(email, otp, newPassword);
+    }
+
+    if (!success) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired OTP code. Please request a new OTP.' });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successfully! You can now sign in with your new password.'
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

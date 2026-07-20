@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CareerOS - Complete Technical & Interview Preparation Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+    
+    @page {
+      size: A4;
+      margin: 15mm 15mm 15mm 15mm;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #0f172a;
+      line-height: 1.6;
+      background: #ffffff;
+      font-size: 11pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #090d16 0%, #1e1b4b 50%, #064e3b 100%);
+      color: #ffffff;
+      padding: 24px 28px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      margin: 0 0 6px 0;
+      font-size: 22pt;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .header h1 span {
+      color: #34d399;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 10pt;
+      color: #cbd5e1;
+    }
+
+    .meta-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 9pt;
+      font-weight: 600;
+      color: #34d399;
+    }
+
+    .section-title {
+      font-size: 14pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-left: 4px solid #10b981;
+      padding-left: 10px;
+      margin: 24px 0 14px 0;
+      letter-spacing: -0.3px;
+    }
+
+    .badge-critical {
+      background-color: #ef4444;
+      color: #ffffff;
+      font-size: 8pt;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      margin-left: 8px;
+    }
+
+    .badge-major {
+      background-color: #10b981;
+      color: #ffffff;
+      font-size: 8pt;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      margin-left: 8px;
+    }
+
+    .tech-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 9.5pt;
+    }
+
+    .tech-table th, .tech-table td {
+      border: 1px solid #e2e8f0;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .tech-table th {
+      background-color: #f8fafc;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .tech-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .qa-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+
+    .qa-card.major {
+      border: 2px solid #10b981;
+      background: #f0fdf4;
+    }
+
+    .question {
+      font-size: 11pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .answer {
+      font-size: 10pt;
+      color: #334155;
+      margin: 0;
+      text-align: justify;
+    }
+
+    .answer code {
+      background: #e2e8f0;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 9pt;
+    }
+
+    .highlight-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-left: 4px solid #3b82f6;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+      font-size: 9.5pt;
+      color: #1e3a8a;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 14px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 8.5pt;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Banner -->
+  <div class="header">
+    <h1>Career<span>OS</span> &mdash; Complete Technical & Interview Guide</h1>
+    <p>Comprehensive Architecture, Technology Stack, and High-Frequency Interview Q&A for Software Engineers</p>
+    <div class="meta-bar">
+      <span>Lead Platform Architect: Dev Sharma</span>
+      <span>Contact: Devmishraa22@gmail.com</span>
+      <span>Platform Status: v2.5 Production Live</span>
+    </div>
+  </div>
+
+  <!-- Tech Stack Overview Table -->
+  <div class="section-title">1. Complete Technology Stack Specification</div>
+  <table class="tech-table">
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>Technologies Used</th>
+        <th>Key Architectural Responsibility</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Frontend Core</strong></td>
+        <td>React 18, Vite 8, React Router DOM v6, Context API</td>
+        <td>Fast SPA client rendering, stateful user context, client-side routing</td>
+      </tr>
+      <tr>
+        <td><strong>UI Design System</strong></td>
+        <td>Vanilla CSS tokens, Tailwind CSS v4, Lucide Icons, Recharts</td>
+        <td>Cyber Emerald dark/light glassmorphism theme, responsiveness, metric charts</td>
+      </tr>
+      <tr>
+        <td><strong>Real-Time AV Stream</strong></td>
+        <td>WebRTC (getUserMedia), Canvas API, Web Audio API</td>
+        <td>Live webcam video stream, audio frequency meter visualizer (AudioContext)</td>
+      </tr>
+      <tr>
+        <td><strong>Voice Dictation</strong></td>
+        <td>Web Speech API (SpeechRecognition)</td>
+        <td>Hands-free voice answer dictation into interview answer fields</td>
+      </tr>
+      <tr>
+        <td><strong>Code Execution</strong></td>
+        <td>Monaco Editor (@monaco-editor/react), AST Simulators</td>
+        <td>Multi-language code sandbox (JS, Python, C++, Java, SQL tabular queries)</td>
+      </tr>
+      <tr>
+        <td><strong>Backend API</strong></td>
+        <td>Node.js, Express.js (ES Modules), Socket.io v4</td>
+        <td>RESTful JSON endpoints, WebSocket real-time broadcast notification channel</td>
+      </tr>
+      <tr>
+        <td><strong>Database System</strong></td>
+        <td>MongoDB Atlas + Mongoose ODM, In-Memory DB Engine</td>
+        <td>Dual-database engine (MongoDB production + 0ms fallback Memory Engine)</td>
+      </tr>
+      <tr>
+        <td><strong>Security Layer</strong></td>
+        <td>JWT, bcryptjs, Helmet, Express Rate Limit, HPP, NoSQL Sanitizer</td>
+        <td>Brute-force lockout, 10MB payload size guard, NoSQL injection stripping ($)</td>
+      </tr>
+      <tr>
+        <td><strong>Cloud Deployment</strong></td>
+        <td>GitHub, Render Web Services (render.yaml), Vercel Serverless</td>
+        <td>Automated 1-click CI/CD deployment pipelines</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Major Questions Section -->
+  <div class="section-title">2. TOP 5 MAJOR QUESTIONS INTERVIEWERS WILL DEFINITELY ASK <span class="badge-critical">MUST READ</span></div>
+
+  <div class="qa-card major">
+    <div class="question">
+      <span>Q1: How does the real-time WebRTC video streaming & AudioContext visualizer work in AI Mock Interviews?</span>
+      <span class="badge-critical">DEFINITE ASK</span>
+    </div>
+    <div class="answer">
+      <strong>Answer:</strong> The WebRTC video stream utilizes the browser's native <code>navigator.mediaDevices.getUserMedia({ video: true, audio: true })</code> API to capture local camera and audio streams. The stream is assigned to an HTML5 <code>&lt;video&gt;</code> element via React ref. For the audio visualizer, an <code>AudioContext</code> and <code>AnalyserNode</code> process audio frequencies in a 100ms throttled loop to extract real-time decibel levels, updating an SVG mic level bar without triggering excessive React re-renders.
+    </div>
+  </div>
+
+  <div class="qa-card major">
+    <div class="question">
+      <span>Q2: How is the zero-downtime Dual Database Fallback (MongoDB + Memory Engine) designed?</span>
+      <span class="badge-critical">DEFINITE ASK</span>
+    </div>
+    <div class="answer">
+      <strong>Answer:</strong> On startup, <code>connectDB()</code> attempts to connect to MongoDB. If <code>MONGO_URI</code> is absent or times out (e.g. cloud fallback or local offline testing), <code>global.isMongoConnected</code> is set to <code>false</code>. All backend controllers inspect <code>global.isMongoConnected</code>: if true, Mongoose queries run; if false, execution delegates to <code>memoryDb.js</code>, an in-memory data store pre-seeded with 25+ company guides, 100+ DSA problems, and default accounts. This delivers 100% uptime with 0ms latency.
+    </div>
+  </div>
+
+  <div class="qa-card major">
+    <div class="question">
+      <span>Q3: What security measures are implemented against DoS, XSS, and NoSQL injection attacks?</span>
+      <span class="badge-critical">DEFINITE ASK</span>
+    </div>
+    <div class="answer">
+      <strong>Answer:</strong> Security is hardened at 5 levels:
+      <br>1. <code>express-rate-limit</code> caps IP requests at 300 per 15 minutes.
+      <br>2. <code>express.json({ limit: '10mb' })</code> controls maximum payload size for avatar uploads while preventing buffer overflow DoS attacks.
+      <br>3. Custom middleware recursively strips object keys starting with <code>$</code> to neutralize NoSQL query injections.
+      <br>4. HTTP Parameter Pollution (HPP) sanitization ensures array parameter spoofing is blocked.
+      <br>5. <code>Helmet</code> sets HTTP security headers while bypassing CSP for Monaco Editor CDN scripts.
+    </div>
+  </div>
+
+  <div class="qa-card major">
+    <div class="question">
+      <span>Q4: How does the Monaco Code Sandbox compile multi-language code and isolate SQL queries?</span>
+      <span class="badge-critical">DEFINITE ASK</span>
+    </div>
+    <div class="answer">
+      <strong>Answer:</strong> The code workspace integrates <code>@monaco-editor/react</code>. For languages like JS, Python, C++, and Java, execution is processed via simulated AST evaluation capturing standard output (stdout/stderr). For SQL queries, the system detects <code>isSql: true</code>, validates relational database constructs (<code>SELECT / FROM / WHERE / JOIN</code>), renders structured HTML data tables, and isolates non-SQL DSA problem sets when the SQL tab is selected.
+    </div>
+  </div>
+
+  <div class="qa-card major">
+    <div class="question">
+      <span>Q5: How does the STAR framework evaluate candidate responses in AI Mock Interviews?</span>
+      <span class="badge-critical">DEFINITE ASK</span>
+    </div>
+    <div class="answer">
+      <strong>Answer:</strong> Candidate answers (submitted via voice dictation or text) are processed by <code>aiService.js</code>. The algorithm evaluates the answer against STAR framework principles (Situation, Task, Action, Result), analyzes technical keyword density relative to the target role (e.g. Frontend vs Backend), calculates a 1-10 numerical score, and provides actionable feedback on strengths and missing areas (e.g. edge-case handling or scalability).
+    </div>
+  </div>
+
+  <!-- Additional Technical Questions -->
+  <div class="section-title">3. Comprehensive Technical Interview Q&amp;A List (10 Technical Questions)</div>
+
+  <div class="qa-card">
+    <div class="question">Q6: How does JWT Authentication and auto-login work across application reloads?</div>
+    <div class="answer">
+      Upon successful sign-in or registration, the server signs a JSON Web Token containing the user ID and role. The client stores the token in <code>localStorage.setItem('talentsphere_token', token)</code>. An Axios request interceptor attaches <code>Authorization: Bearer &lt;token&gt;</code> to every request. On app boot, <code>AuthContext.jsx</code> automatically invokes <code>/api/users/profile</code> to fetch and restore user session state.
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="question">Q7: How does Sign Out completely purge user session state?</div>
+    <div class="answer">
+      The <code>logout()</code> function in <code>AuthContext.jsx</code> clears all authentication tokens (<code>talentsphere_token</code>, <code>talentsphere_refresh_token</code>, <code>talentsphere_user_avatar</code>, <code>talentsphere_cache_state</code>), explicitly disconnects active Socket.io WebSocket connections (<code>socket.disconnect()</code>), resets React state to null, displays a toast notification, and redirects to <code>/login</code>.
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="question">Q8: How does the 0ms SVG QR Pass system allow student sign-in?</div>
+    <div class="answer">
+      Each student account generates a unique QR token (e.g. <code>CAREEROS_QR_PASS_&lt;userId&gt;</code>). The client component <code>StudentQRCode.jsx</code> uses a 0ms client-side path generator (<code>qrGenerator.js</code>) to render vector SVG QR codes instantly without server API latency. In <code>Login.jsx</code>, <code>QRScannerModal</code> uses the camera or file picker to parse the token string and authenticate the candidate.
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="question">Q9: How are the 25+ Corporate Company Guides automatically seeded into the application?</div>
+    <div class="answer">
+      The <code>expandedCompanies.js</code> file exports 25 top tech company guides (Google, Microsoft, Amazon, Meta, Netflix, Stripe, etc.). In <code>companyController.js</code>, an <code>ensureCompaniesSeeded()</code> function checks if the database is empty on server boot and auto-populates the 25 company entries with questions, required skills, and interview tips.
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="question">Q10: How does the AI Resume Builder generate professional summaries and export printable A4 PDFs?</div>
+    <div class="answer">
+      <code>ResumeBuilder.jsx</code> provides real-time form controls for contact details, skills, experience, and education. Clicking "AI Enhance" transforms basic summaries into action-oriented descriptions using impact keywords. A live side-by-side A4 resume preview formats the document cleanly, and clicking "Print / Export PDF" triggers browser print styling (<code>window.print()</code>) with dedicated CSS print media queries.
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="question">Q11: How is real-time WebSocket messaging handled via Socket.io?</div>
+    <div class="answer">
+      When a user logs in, <code>AuthContext.jsx</code> connects to Socket.io and emits a <code>register_user</code> event to join a private user channel. When an admin or server action triggers notifications, <code>global.io.to(userId).emit('notification', data)</code> broadcasts real-time alerts that display as animated toasts without requiring page refreshes.
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="question">Q12: How are candidate profile pictures handled for system upload and gallery pickers?</div>
+    <div class="answer">
+      In <code>Profile.jsx</code>, an interactive camera overlay button triggers a hidden <code>&lt;input type="file" accept="image/*"&gt;</code>. A <code>FileReader</code> converts selected image files into base64 Data URLs stored in <code>localStorage</code> and user state, dynamically updating profile avatars in the Navbar and user cards.
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="question">Q13: How is CareerOS configured for 1-click cloud deployment on Render?</div>
+    <div class="answer">
+      The project root contains a <code>package.json</code> with unified scripts: <code>"build": "cd client && npm install && npm run build"</code> and <code>"start": "cd server && node server.js"</code>. The <code>render.yaml</code> manifest specifies Node environment settings, permitting Render to build the React client static bundle and start the production server with Socket.io enabled.
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="question">Q14: How does the ATS Resume Scanner calculate resume match percentages?</div>
+    <div class="answer">
+      The ATS scanner parses uploaded PDF text using <code>resumeParser.js</code> and extracts technical skills, experience metrics, and formatting structure. It compares extracted keywords against target job descriptions, generating an ATS match score (0-100) and bulleted improvement recommendations.
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="question">Q15: How does CareerOS ensure high performance and prevent UI lag during stateful operations?</div>
+    <div class="answer">
+      High performance is achieved by:
+      <br>1. Throttling frequency visualizer loops to 100ms intervals.
+      <br>2. Memoizing expensive calculations with React hooks.
+      <br>3. Implementing sub-5ms route caching middleware on backend endpoints.
+      <br>4. Utilizing client-side SVG generation for QR codes instead of remote server rendering.
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>💡 Pro-Tip for Interview Pitch:</strong> When describing CareerOS, emphasize that it is not just a standard web app, but a <em>production-grade, resilient commercial platform</em> built with WebRTC, Web Audio API, Web Speech API, Monaco Code Sandbox, and a zero-downtime dual-database fallback architecture.
+  </div>
+
+  <div class="footer-note">
+    CareerOS Interview Preparation Guide &bull; Designed &amp; Developed by Dev Sharma (Devmishraa22@gmail.com) &bull; Page 1 of 1
+  </div>
+
+</body>
+</html>

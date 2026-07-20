@@ -29,6 +29,8 @@ const userSchema = new mongoose.Schema({
   education: [educationSchema],
   resumeURL: { type: String, default: '' },
   refreshToken: { type: String, default: '' },
+  resetPasswordOTP: { type: String, default: '' },
+  resetPasswordExpires: { type: Date },
   bookmarks: [{ type: String }],
   achievements: [{
     title: { type: String, required: true },

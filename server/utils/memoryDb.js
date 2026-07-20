@@ -236,6 +236,26 @@ export const memoryDb = {
     }
     return false;
   },
+  saveResetOtp: async (email, otp) => {
+    const user = db.users.find(u => u.email.toLowerCase() === (email || '').toLowerCase());
+    if (user) {
+      user.resetPasswordOTP = otp;
+      user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+      return true;
+    }
+    return false;
+  },
+  resetPasswordWithOtp: async (email, otp, newPassword) => {
+    const user = db.users.find(u => u.email.toLowerCase() === (email || '').toLowerCase());
+    if (user && user.resetPasswordOTP === otp && user.resetPasswordExpires > Date.now()) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(newPassword, salt);
+      user.resetPasswordOTP = '';
+      user.resetPasswordExpires = null;
+      return true;
+    }
+    return false;
+  },
   getUsersList: async () => db.users,
 
   // Company Operations

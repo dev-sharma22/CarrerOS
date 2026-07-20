@@ -4,6 +4,7 @@ import { Lock, Mail, AlertTriangle, Key, QrCode, Sparkles, Eye, EyeOff } from 'l
 import useAuth from '../hooks/useAuth';
 import Button from '../components/Button';
 import QRScannerModal from '../components/QRScannerModal';
+import ForgotPasswordModal from '../components/ForgotPasswordModal';
 
 export const Login = () => {
   const { login } = useAuth();
@@ -15,6 +16,7 @@ export const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isQrOpen, setIsQrOpen] = useState(false);
+  const [isForgotOpen, setIsForgotOpen] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -120,7 +122,16 @@ export const Login = () => {
 
             {/* Password Field */}
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Password</label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Password</label>
+                <button
+                  type="button"
+                  onClick={() => setIsForgotOpen(true)}
+                  className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 underline cursor-pointer"
+                >
+                  Forgot Password?
+                </button>
+              </div>
               <div className="relative">
                 <Lock className="absolute left-4 top-3.5 w-4 h-4 text-slate-500" />
                 <input
@@ -176,6 +187,12 @@ export const Login = () => {
         isOpen={isQrOpen}
         onClose={() => setIsQrOpen(false)}
         onSuccess={handleQrSuccess}
+      />
+
+      {/* Forgot Password Modal */}
+      <ForgotPasswordModal
+        isOpen={isForgotOpen}
+        onClose={() => setIsForgotOpen(false)}
       />
     </div>
   );

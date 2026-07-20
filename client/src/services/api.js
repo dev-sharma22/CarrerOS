@@ -42,6 +42,8 @@ export const authAPI = {
   updateProfile: (data) => api.put('/users/profile', data),
   getDashboardStats: () => api.get('/users/dashboard'),
   refresh: (refreshToken) => api.post('/auth/refresh', { refreshToken }),
+  forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
+  resetPassword: (data) => api.post('/auth/reset-password', data),
   
   // Notes
   addNote: (data) => api.post('/users/notes', data),

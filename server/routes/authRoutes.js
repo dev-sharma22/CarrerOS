@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser, qrLoginUser, refreshAccessToken } from '../controllers/authController.js';
+import { registerUser, loginUser, qrLoginUser, refreshAccessToken, forgotPassword, resetPassword } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -8,6 +8,8 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/qr-login', qrLoginUser);
 router.post('/refresh', refreshAccessToken);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 
 // Developer Trigger routes
 router.post('/notify-trigger', protect, async (req, res) => {
