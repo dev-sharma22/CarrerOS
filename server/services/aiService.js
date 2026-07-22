@@ -21,10 +21,11 @@ if (API_KEY) {
 // @desc    Generate interview questions based on role, experience, difficulty, and resume
 export const generateInterviewQuestions = async (role, experienceLevel, difficulty, resumeText = '') => {
   const prompt = `
-    You are an expert technical interviewer at a tier-1 software company.
+    You are an encouraging and supportive technical interviewer at a top software company.
     Generate a list of 5 interview questions for a candidate seeking a ${role} position.
     Experience Level: ${experienceLevel}
     Difficulty Level: ${difficulty}
+    ${difficulty === 'Easy' ? 'IMPORTANT: Keep questions beginner-friendly, straightforward, foundational, and accessible to minimize difficulty for the candidate.' : ''}
     ${resumeText ? `Candidate Resume Context: ${resumeText}` : ''}
 
     Provide the output strictly as a JSON array of strings, like this:

@@ -255,7 +255,7 @@ export const AIInterview = () => {
 
   const [role,            setRole]            = useState(INTERVIEW_ROLES[0]);
   const [experienceLevel, setExperienceLevel] = useState(EXPERIENCE_LEVELS[0]);
-  const [difficulty,      setDifficulty]      = useState(DIFFICULTY_LEVELS[1]);
+  const [difficulty,      setDifficulty]      = useState(DIFFICULTY_LEVELS[0]);
   const [liveVideoMode,   setLiveVideoMode]   = useState(true);
 
   const [interviewId,     setInterviewId]     = useState('');
